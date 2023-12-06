@@ -1,7 +1,6 @@
-﻿
-namespace AuthServer.Core.Model
+﻿namespace AuthServer.Core.Model
 {
-    public class UserRefleshToken
+    public class UserRefreshToken
     {
         public string UserId { get; set; }
         public string Code { get; set; }
