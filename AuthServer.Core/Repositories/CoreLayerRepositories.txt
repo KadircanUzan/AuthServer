@@ -1,0 +1,11 @@
+﻿public interface IGenericRepository<TEntity> where TEntity : class
+    {
+        Task<TEntity> GetByIdAsync(int id);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
+        Task AddAsync(TEntity entity);
+        void DeleteAsync(TEntity entity);
+        TEntity Update(TEntity entity);
+    }
+    IQueryable: ToList() metodu ile birlikte sorgu tek çalıştırılır sorgu ToList() metodunu bekler.
+   

@@ -1,0 +1,5 @@
+﻿UserApp: IdentityUser sınıfından türediği için kendine özgü özellikleri barındırıyor.Ek olarak city özelliği kazandırdık.
+UserRefleshToken: 
+UserId    => Token kime ait olduğunu biliriz.
+Code      => Üretilen token için kullanılır.
+Expiration => Üretilen token ömrünü tutarız.

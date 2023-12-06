@@ -1,0 +1,6 @@
+﻿
+
+Errors: bir özellik içerisinde birden fazla hata mesajı barındırabilir.
+Örneğin: Büyük harf eksik ve toplam 8 karakterden fazla giriş yaptınız gibi.
+
+IsShow: Kullanıcılara göstereceğimiz hatalar true set edilecek, admine göstereceğimiz hatalar false set edilecektir.
