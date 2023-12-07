@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace AuthServer.Core.Repositories
 {
@@ -13,7 +8,7 @@ namespace AuthServer.Core.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
         Task AddAsync(TEntity entity);
-        void DeleteAsync(TEntity entity);
+        void Remove(TEntity entity);
         TEntity Update(TEntity entity);
     }
 }

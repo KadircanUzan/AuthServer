@@ -1,5 +1,4 @@
-﻿
-using AuthServer.Core.Configuration;
+﻿using AuthServer.Core.Configuration;
 using AuthServer.Core.DTOs;
 using AuthServer.Core.Model;
 
