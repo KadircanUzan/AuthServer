@@ -4,6 +4,7 @@ using AuthServer.Core.Model;
 using AuthServer.Core.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SharedLibrary.Configurations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,12 +17,12 @@ namespace AuthServer.Service.Services
 
         private readonly UserManager<UserApp> _userManager;
 
-        private readonly CustomTokenOption _TokenOption;
+        private readonly CustomTokenOption _tokenOption;
 
         public TokenService(UserManager<UserApp> userManager, IOptions<CustomTokenOption> customTokenOption)
         {
             _userManager = userManager;
-            _TokenOption = customTokenOption.Value;
+            _tokenOption = customTokenOption.Value;
         }
 
         private string CreateRefleshToken()
@@ -57,7 +58,29 @@ namespace AuthServer.Service.Services
         }
         public TokenDto CreateToken(UserApp userApp)
         {
-            throw new NotImplementedException();
+            var accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOption.AccessTokenExpiration);
+            var refleshTokenExpiration = DateTime.Now.AddMinutes(_tokenOption.RefleshTokenExpiration);
+            var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecurityKey);
+
+            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken
+                (
+                issuer: _tokenOption.Issuer,
+                expires: accessTokenExpiration,
+                notBefore: DateTime.Now,
+                claims: GetClaim(userApp, _tokenOption.Audience),
+                signingCredentials: signingCredentials
+                );
+            var handler = new JwtSecurityTokenHandler();
+            var token= handler.WriteToken(jwtSecurityToken);
+            var tokenDto = new TokenDto
+            {
+                 AccessToken = token,
+                 RefleshToken=CreateRefleshToken(),
+                 AccessTokenExpiration=accessTokenExpiration,
+                 RefleshTokenExpiration= refleshTokenExpiration
+            };
+            return tokenDto;
         }
 
         public ClientTokenDto CreateTokenByClient(Client client)
