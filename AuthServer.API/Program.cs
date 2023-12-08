@@ -11,7 +11,7 @@ namespace AuthServer.API
 
             // Add services to the container.
             builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
-            builder.Services.Configure<Client>(builder.Configuration.GetSection("Clients"));
+            builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
 
             builder.Services.AddControllers();
             
