@@ -10,7 +10,7 @@ namespace AuthServer.Core.Services
 
         Task<Response<NoDataDto>> RevokeRefleshToken(string refleshToken);
 
-        Task<Response<ClientTokenDto>> CreateTokenByClient(ClientLoginDto clientLoginDto);
+        Response<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto);
 
     }
 }
