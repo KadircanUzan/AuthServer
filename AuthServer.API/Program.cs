@@ -1,4 +1,13 @@
 using AuthServer.Core.Configuration;
+using AuthServer.Core.Model;
+using AuthServer.Core.Repositories;
+using AuthServer.Core.Services;
+using AuthServer.Core.UnitOfWork;
+using AuthServer.Data;
+using AuthServer.Data.Repositories;
+using AuthServer.Service.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Configurations;
 
 namespace AuthServer.API
@@ -8,7 +17,27 @@ namespace AuthServer.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //DI Register
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepositories<>));
+            builder.Services.AddScoped(typeof(IServiceGeneric<,>),typeof(IServiceGeneric<,>));
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
+            builder.Services.AddDbContext<AppDbContext>(options=>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"), sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly("AuthServer.Data");
+                });
+            });
+
+            builder.Services.AddIdentity<UserApp, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireNonAlphanumeric = false;
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             // Add services to the container.
             builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
             builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
