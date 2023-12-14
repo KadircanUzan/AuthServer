@@ -22,9 +22,9 @@ namespace AuthServer.API
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositories<>));
-            builder.Services.AddScoped(typeof(IServiceGeneric<,>), typeof(IServiceGeneric<,>));
+            builder.Services.AddScoped(typeof(IServiceGeneric<,>), typeof(ServiceGeneric<,>));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"), sqlOptions =>

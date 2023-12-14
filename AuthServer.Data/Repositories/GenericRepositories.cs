@@ -9,7 +9,7 @@ namespace AuthServer.Data.Repositories
         private readonly DbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public GenericRepositories(AppDbContext context, DbSet<TEntity> entities)
+        public GenericRepositories(AppDbContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();

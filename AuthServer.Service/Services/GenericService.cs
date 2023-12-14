@@ -7,12 +7,12 @@ using System.Linq.Expressions;
 
 namespace AuthServer.Service.Services
 {
-    public class GenericService<TEntity, TDto> : IServiceGeneric<TEntity, TDto> where TEntity : class where TDto : class
+    public class ServiceGeneric<TEntity, TDto> : IServiceGeneric<TEntity, TDto> where TEntity : class where TDto : class
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<TEntity> _genericRepository;
 
-        public GenericService(IUnitOfWork unitOfWork, IGenericRepository<TEntity> genericRepository)
+        public ServiceGeneric(IUnitOfWork unitOfWork, IGenericRepository<TEntity> genericRepository)
         {
             _unitOfWork = unitOfWork;
             _genericRepository = genericRepository;
@@ -65,8 +65,8 @@ namespace AuthServer.Service.Services
         }
         public async Task<Response<IEnumerable<TDto>>> Where(Expression<Func<TEntity, bool>> predicate)
         {
-            var list=_genericRepository.Where(predicate);
-            return Response<IEnumerable<TDto>>.Success(ObjectMapper.Mapper.Map<IEnumerable<TDto>>(await list.ToListAsync()),200);
+            var list = _genericRepository.Where(predicate);
+            return Response<IEnumerable<TDto>>.Success(ObjectMapper.Mapper.Map<IEnumerable<TDto>>(await list.ToListAsync()), 200);
         }
     }
 }
