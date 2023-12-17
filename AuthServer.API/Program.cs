@@ -84,7 +84,7 @@ namespace AuthServer.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
